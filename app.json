@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "kisan-ai-mobile",
-    "slug": "kisan-ai-mobile",
+    "slug": "kisan-ai",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -16,6 +16,7 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.harshvardhang1010.kisanai",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -24,6 +25,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "e8bd262a-80c9-417f-9e1c-5ca53da44354"
+      }
+    },
+    "owner": "harshvardhang1010"
   }
 }
