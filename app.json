@@ -31,6 +31,9 @@
         "projectId": "e8bd262a-80c9-417f-9e1c-5ca53da44354"
       }
     },
-    "owner": "harshvardhang1010"
+    "owner": "harshvardhang1010",
+    "plugins": [
+      "expo-font"
+    ]
   }
 }
