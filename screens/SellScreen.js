@@ -75,22 +75,27 @@ export default function SellScreen() {
         <Text style={styles.title}>{t.whenToSell}</Text>
 
         {/* Soil moisture card */}
-        {weather && !weather._error && weather.soil_moisture != null && (
-          <View style={styles.soilCard}>
-            <View style={styles.soilRow}>
-              <Ionicons name="water" size={22} color={Colors.blue700} />
-              <View style={styles.soilInfo}>
-                <Text style={styles.soilLabel}>{t.soilMoisture}</Text>
-                <Text style={styles.soilVal}>{weather.soil_moisture}%</Text>
-              </View>
-              <View style={[styles.irrigateBadge, { backgroundColor: weather.soil_moisture < 30 ? Colors.red100 : Colors.green100 }]}>
-                <Text style={[styles.irrigateText, { color: weather.soil_moisture < 30 ? Colors.red700 : Colors.green700 }]}>
-                  {weather.soil_moisture < 30 ? t.irrigate : t.noIrrigate}
-                </Text>
+        {weather && !weather._error && weather.soil_moisture != null && (() => {
+          const sm = weather.soil_moisture;
+          const smVal = typeof sm === 'object' ? sm.current : sm;
+          const needsIrrigation = typeof sm === 'object' ? sm.irrigation_needed : smVal < 30;
+          return (
+            <View style={styles.soilCard}>
+              <View style={styles.soilRow}>
+                <Ionicons name="water" size={22} color={Colors.blue700} />
+                <View style={styles.soilInfo}>
+                  <Text style={styles.soilLabel}>{t.soilMoisture}</Text>
+                  <Text style={styles.soilVal}>{smVal}%</Text>
+                </View>
+                <View style={[styles.irrigateBadge, { backgroundColor: needsIrrigation ? Colors.red100 : Colors.green100 }]}>
+                  <Text style={[styles.irrigateText, { color: needsIrrigation ? Colors.red700 : Colors.green700 }]}>
+                    {needsIrrigation ? t.irrigate : t.noIrrigate}
+                  </Text>
+                </View>
               </View>
             </View>
-          </View>
-        )}
+          );
+        })()}
 
         {CROPS.map((crop) => {
           const data = trends[crop];

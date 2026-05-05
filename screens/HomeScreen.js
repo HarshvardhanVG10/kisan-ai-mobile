@@ -95,7 +95,7 @@ export default function HomeScreen({ navigation }) {
               )}
               {weather.soil_moisture != null && (
                 <View style={styles.weatherStat}>
-                  <Text style={styles.weatherStatVal}>{weather.soil_moisture}%</Text>
+                  <Text style={styles.weatherStatVal}>{typeof weather.soil_moisture === 'object' ? weather.soil_moisture.current : weather.soil_moisture}%</Text>
                   <Text style={styles.weatherStatLabel}>{t.soilMoisture}</Text>
                 </View>
               )}
