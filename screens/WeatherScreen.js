@@ -82,6 +82,16 @@ export default function WeatherScreen() {
   const forecast = data.forecast || data.daily_forecast || [];
   const advisories = data.advisories || data.weather_advisory || [];
 
+  // soil_moisture may be a number or an object {current, level, irrigation_needed, advice_mr, advice_en}
+  const soilRaw = data.soil_moisture;
+  const soilMoisture = typeof soilRaw === 'object' && soilRaw !== null ? soilRaw.current : soilRaw;
+  const soilAdvice = typeof soilRaw === 'object' && soilRaw !== null
+    ? (lang === 'mr' ? soilRaw.advice_mr : soilRaw.advice_en)
+    : null;
+  const irrigationNeeded = typeof soilRaw === 'object' && soilRaw !== null
+    ? soilRaw.irrigation_needed
+    : (soilMoisture != null ? soilMoisture < 30 : false);
+
   return (
     <SafeAreaView style={styles.safe}>
       <ScrollView
@@ -112,16 +122,17 @@ export default function WeatherScreen() {
 
         {/* Stats row */}
         <View style={styles.statsRow}>
-          {data.soil_moisture != null && (
+          {soilMoisture != null && (
             <View style={styles.statCard}>
               <Ionicons name="water" size={20} color={Colors.blue700} />
-              <Text style={styles.statVal}>{data.soil_moisture}%</Text>
+              <Text style={styles.statVal}>{soilMoisture}%</Text>
               <Text style={styles.statLabel}>{t.soilMoisture}</Text>
-              <View style={[styles.irrigateBadge, { backgroundColor: data.soil_moisture < 30 ? Colors.red100 : Colors.green100 }]}>
-                <Text style={[styles.irrigateText, { color: data.soil_moisture < 30 ? Colors.red700 : Colors.green700 }]}>
-                  {data.soil_moisture < 30 ? t.irrigate : t.noIrrigate}
+              <View style={[styles.irrigateBadge, { backgroundColor: irrigationNeeded ? Colors.red100 : Colors.green100 }]}>
+                <Text style={[styles.irrigateText, { color: irrigationNeeded ? Colors.red700 : Colors.green700 }]}>
+                  {irrigationNeeded ? t.irrigate : t.noIrrigate}
                 </Text>
               </View>
+              {soilAdvice ? <Text style={[styles.irrigateText, { color: Colors.gray500, marginTop: 4 }]}>{soilAdvice}</Text> : null}
             </View>
           )}
           {data.rainfall_7d != null && (
