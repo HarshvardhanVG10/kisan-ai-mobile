@@ -31,8 +31,7 @@
     },
     "owner": "harshvardhang1010",
     "plugins": [
-      "expo-font",
-      "expo-updates"
+      "expo-font"
     ]
   }
 }
