@@ -32,6 +32,12 @@
     "owner": "harshvardhang1010",
     "plugins": [
       "expo-font"
-    ]
+    ],
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/e8bd262a-80c9-417f-9e1c-5ca53da44354"
+    }
   }
 }

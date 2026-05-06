@@ -36,7 +36,7 @@ export default function PricesScreen() {
   if (loading) return <LoadingSpinner text={t.loading} />;
 
   const crops = Array.isArray(data) ? data : (data && Array.isArray(data.crops) ? data.crops : []);
-  const liveCrops = crops.filter(c => c.source === 'live' || c.price != null);
+  const liveCrops = crops.filter(c => c != null && (c.source === 'live' || c.source === 'db_cache' || c.source === 'cloudflare' || c.price != null));
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -63,7 +63,7 @@ export default function PricesScreen() {
             {liveCrops.map((crop, i) => (
               <View key={i} style={[styles.tableRow, i % 2 === 1 && styles.tableRowAlt]}>
                 <Text style={[styles.td, { flex: 2, fontWeight: '600', color: Colors.primary }]}>
-                  {(t.cropNames[crop.crop] || crop.crop)}
+                  {(t.cropNames && t.cropNames[crop.crop]) || crop.crop || ''}
                 </Text>
                 <Text style={[styles.td, { flex: 2 }]} numberOfLines={1}>
                   {crop.market || crop.district || district}
